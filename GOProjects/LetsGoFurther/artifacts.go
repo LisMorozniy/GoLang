@@ -18,7 +18,7 @@ func (app *application) showArtifactHandler(w http.ResponseWriter, r *http.Reque
     ID: id,
     CreatedAt: time.Now(),
     Name: "Crown",
-    Origin: "Kazakh"
+    Origin: "Kazakh",
     Year: 102,
     Type: "Jewlry",
     Version: 1,
