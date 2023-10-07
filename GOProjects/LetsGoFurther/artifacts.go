@@ -12,13 +12,12 @@ func (app *application) createArtifactHandler(w http.ResponseWriter, r *http.Req
         Year int32 `json:"year"`
         Type string `json:"type"`
         }
-        err := json.NewDecoder(r.Body).Decode(&input)
+        err := app.readJSON(w, r, &input)
         if err != nil {
         app.errorResponse(w, r, http.StatusBadRequest, err.Error())
         return
         }
-        // Dump the contents of the input struct in a HTTP response.
-        fmt.Fprintf(w, "%+v\n", input)    
+    fmt.Fprintf(w, "%+v\n", input)    
 }
 func (app *application) showArtifactHandler(w http.ResponseWriter, r *http.Request) {
     id, err := app.readIDParam(r)
