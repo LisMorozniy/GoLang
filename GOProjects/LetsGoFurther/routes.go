@@ -11,8 +11,8 @@ router := httprouter.New()
 // http.MethodPost are constants which equate to the strings "GET" and "POST"
 // respectively.
 router.HandlerFunc(http.MethodGet, "/v1/healthcheck", app.healthcheckHandler)
-router.HandlerFunc(http.MethodPost, "/v1/movies", app.createArtifactHandler)
-router.HandlerFunc(http.MethodGet, "/v1/movies/:id", app.showArtifactHandler)
+router.HandlerFunc(http.MethodPost, "/v1/artifacts", app.createArtifactHandler)
+router.HandlerFunc(http.MethodGet, "/v1/artifacts/:id", app.showArtifactHandler)
 // Return the httprouter instance.
 return router
 }
