@@ -13,11 +13,12 @@ func (app *application) createArtifactHandler(w http.ResponseWriter, r *http.Req
         Type string `json:"type"`
         }
         err := app.readJSON(w, r, &input)
-        if err != nil {
-        app.errorResponse(w, r, http.StatusBadRequest, err.Error())
-        return
-        }
-    fmt.Fprintf(w, "%+v\n", input)    
+if err != nil {
+// Use the new badRequestResponse() helper.
+app.badRequestResponse(w, r, err)
+return
+}
+fmt.Fprintf(w, "%+v\n", input)    
 }
 func (app *application) showArtifactHandler(w http.ResponseWriter, r *http.Request) {
     id, err := app.readIDParam(r)
