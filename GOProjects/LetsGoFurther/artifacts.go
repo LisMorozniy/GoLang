@@ -9,7 +9,7 @@ import (
 func (app *application) createArtifactHandler(w http.ResponseWriter, r *http.Request) {
     var input struct {
         Name string `json:"name"`
-        Year int32 `json:"year"`
+        Year data.Year `json:"year"`
         Type string `json:"type"`
         }
         err := app.readJSON(w, r, &input)
