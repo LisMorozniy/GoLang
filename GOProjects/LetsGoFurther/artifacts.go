@@ -23,7 +23,7 @@ func (app *application) showArtifactHandler(w http.ResponseWriter, r *http.Reque
     Type: "Jewlry",
     Version: 1,
     }
-    err = app.writeJSON(w, http.StatusOK, artifact, nil)
+    err = app.writeJSON(w, http.StatusOK, envelope{"artifact": artifact}, nil)
     if err != nil {
     app.logger.Println(err)
     http.Error(w, "The server encountered a problem and could not process your request", http.StatusInternalServerError)
