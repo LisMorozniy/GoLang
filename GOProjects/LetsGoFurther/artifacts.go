@@ -5,24 +5,24 @@ import (
 "strconv"
 "github.com/julienschmidt/httprouter"
 )
-func (app *application) createMovieHandler(w http.ResponseWriter, r *http.Request) {
-fmt.Fprintln(w, "create a new movie")
+func (app *application) createArtifactHandler(w http.ResponseWriter, r *http.Request) {
+fmt.Fprintln(w, "create a new artifact")
 }
-func (app *application) showMovieHandler(w http.ResponseWriter, r *http.Request) {
+func (app *application) showArtifactHandler(w http.ResponseWriter, r *http.Request) {
     id, err := app.readIDParam(r)
     if err != nil {
     http.NotFound(w, r)
     return
     }
-    movie := data.Movie{
+    artifact := data.Artifact{
     ID: id,
     CreatedAt: time.Now(),
-    Title: "Casablanca",
-    Runtime: 102,
-    Genres: []string{"drama", "romance", "war"},
+    Name: "Crown",
+    Year: 102,
+    Type: "Jewlry",
     Version: 1,
     }
-    err = app.writeJSON(w, http.StatusOK, movie, nil)
+    err = app.writeJSON(w, http.StatusOK, artifact, nil)
     if err != nil {
     app.logger.Println(err)
     http.Error(w, "The server encountered a problem and could not process your request", http.StatusInternalServerError)
