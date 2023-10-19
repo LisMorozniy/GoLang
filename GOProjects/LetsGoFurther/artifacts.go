@@ -3,21 +3,34 @@ import (
 "encoding/json"
 "fmt"
 "net/http"
-"strconv"
-"github.com/julienschmidt/httprouter"
+"time"
+"LetsGoFurther/internal/data"
+"LetsGoFurther/internal/validator"
 )
 func (app *application) createArtifactHandler(w http.ResponseWriter, r *http.Request) {
     var input struct {
         Name string `json:"name"`
+        Origin string `json:"origin"`
         Year data.Year `json:"year"`
         Type string `json:"type"`
         }
-        err := app.readJSON(w, r, &input)
+err := app.readJSON(w, r, &input)
 if err != nil {
-// Use the new badRequestResponse() helper.
 app.badRequestResponse(w, r, err)
 return
 }
+artifact := &data.Artifact{
+    Name: input.Name,
+    Origin: input.Origin,
+    Year: input.Year,
+    Type: input.Type,
+    }
+    // Initialize a new Validator.
+    v := validator.New()
+    if data.ValidateArtifact(v, artifact); !v.Valid() {
+    app.failedValidationResponse(w, r, v.Errors)
+    return
+    }
 fmt.Fprintf(w, "%+v\n", input)    
 }
 func (app *application) showArtifactHandler(w http.ResponseWriter, r *http.Request) {
