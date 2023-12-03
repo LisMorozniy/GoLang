@@ -185,15 +185,12 @@ func (app *application) listArtifactsHandler(w http.ResponseWriter, r *http.Requ
 		return
 	}
 
-	// Call the GetAll() method to retrieve the artifacts, passing in the various filter
-	// parameters.
 	artifacts, metadata, err := app.models.Artifacts.GetAll(input.Name, input.Origin, input.Type, input.Filters)
 	if err != nil {
 		app.serverErrorResponse(w, r, err)
 		return
 	}
 
-	// Send a JSON response containing the artifact data.
 	err = app.writeJSON(w, http.StatusOK, envelope{"artifacts": artifacts, "metadata": metadata}, nil)
 	if err != nil {
 		app.serverErrorResponse(w, r, err)

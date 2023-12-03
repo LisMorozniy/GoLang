@@ -83,7 +83,7 @@ func (m ArtifactModel) Get(id int64) (*Artifact, error) {
 }
 
 func (m ArtifactModel) GetAll(name string, origin string, artifactType string, filters Filters) ([]*Artifact, Metadata, error) {
-	// Update the SQL query to include the filter conditions.
+
 	query := fmt.Sprintf(`
     SELECT count(*) OVER(), id, created_at, name, origin, year, type, version
     FROM artifacts
@@ -91,12 +91,12 @@ func (m ArtifactModel) GetAll(name string, origin string, artifactType string, f
     AND (LOWER(origin) = LOWER($2) OR $2 = '')
     AND (LOWER(type) = LOWER($3) OR $3 = '')
     ORDER BY %s %s, id ASC
-	LIMIT $3 OFFSET $4`, filters.sortColumn(), filters.sortDirection()) // Assuming SortColumn and SortDirection are methods of Filters
+	LIMIT $3 OFFSET $4`, filters.sortColumn(), filters.sortDirection())
 
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 	args := []interface{}{name, origin, artifactType, filters.limit(), filters.offset()}
-	// Pass the name, origin, and type as the placeholder parameter values.
+
 	rows, err := m.DB.QueryContext(ctx, query, args...)
 	if err != nil {
 		return nil, Metadata{}, err

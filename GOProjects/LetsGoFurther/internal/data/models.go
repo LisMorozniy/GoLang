@@ -5,33 +5,25 @@ import (
 	"errors"
 )
 
-// Define a custom ErrRecordNotFound error. We'll return this from our Get() method when
-// looking up a Artifact that doesn't exist in our database.
 var (
 	ErrRecordNotFound = errors.New("record not found")
 	ErrEditConflict   = errors.New("edit conflict")
 )
 
-// Create a Models struct which wraps the ArtifactModel. We'll add other models to this,
-// like a UserModel and PermissionModel, as our build progresses.
 type Models struct {
 	Artifacts   ArtifactModel
-	Permissions PermissionModel // Add a new Permissions field.
+	Permissions PermissionModel
 
-	Tokens TokenModel // Add a new Tokens field.
-	Users  UserModel  // Add a new Users field.
-
+	Tokens TokenModel
+	Users  UserModel
 }
 
-// For ease of use, we also add a New() method which returns a Models struct containing
-// the initialized ArtifactModel.
 func NewModels(db *sql.DB) Models {
 	return Models{
 		Artifacts:   ArtifactModel{DB: db},
-		Permissions: PermissionModel{DB: db}, // Initialize a new PermissionModel instance.
+		Permissions: PermissionModel{DB: db},
 
-		Tokens: TokenModel{DB: db}, // Initialize a new TokenModel instance.
-		Users:  UserModel{DB: db},  // Initialize a new UserModel instance.
-
+		Tokens: TokenModel{DB: db},
+		Users:  UserModel{DB: db},
 	}
 }
