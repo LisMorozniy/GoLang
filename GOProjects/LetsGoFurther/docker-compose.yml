@@ -1,0 +1,27 @@
+version: '3.8'
+services:
+  letsgofurther:
+    build: ./
+    ports:
+      - "8080:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      - GREENLIGHT_DB_DSN=postgres://greenlight:pa55word@db/greenlight?sslmode=disable
+  db:
+    restart: always
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: greenlight
+      POSTGRES_USER: greenlight
+      POSTGRES_PASSWORD: pa55word
+    volumes:
+      - ./.database/postgres/data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    ports:
+      - 5436:5432
